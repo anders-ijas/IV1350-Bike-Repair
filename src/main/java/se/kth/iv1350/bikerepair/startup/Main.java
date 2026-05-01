@@ -1,0 +1,22 @@
+package se.kth.iv1350.bikerepair.startup;
+
+import se.kth.iv1350.bikerepair.controller.Controller;
+import se.kth.iv1350.bikerepair.view.View;
+import se.kth.iv1350.bikerepair.integration.CustomerRegistry;
+import se.kth.iv1350.bikerepair.integration.RepairOrderRegistry;
+
+public class Main {
+
+    /**
+     * Initializes Registries, Controller and View
+     * @param args
+     */
+    public static void main(String[] args) {
+        RepairOrderRegistry repOrdReg = new RepairOrderRegistry();
+        CustomerRegistry custReg = new CustomerRegistry();
+        Controller contr = new Controller(custReg, repOrdReg);
+        View view = new View(contr);
+
+        view.start();
+    }
+}
