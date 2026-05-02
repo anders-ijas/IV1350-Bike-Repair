@@ -31,10 +31,26 @@ public class Customer {
      */
     public CustomerDTO createDTO() {
         List<BikeDTO> bikeDTOs = new ArrayList<>();
-        for (Bike bike : this.bikes) {
-            bikeDTOs.add(bike.createDTO());
+        if (this.bikes != null) {
+                for (Bike bike : this.bikes) {
+                    bikeDTOs.add(bike.createDTO());
+                }
         }
-        return new CustomerDTO(name, phoneNumber, email, bikeDTOs);
+        return new CustomerDTO(name, phoneNumber, email, List.copyOf(bikeDTOs));
+    }
+
+    /**
+     *  Finds a specific Bike by serial number
+     * @param serialNumber Bike serial number
+     * @return BikeDTO
+     */
+    public BikeDTO findBikeBySerial(String serialNumber) {
+        for (Bike bike : this.bikes) {
+            if (bike.getSerialNumber().equals(serialNumber)) {
+                return bike.createDTO(); // Reuse the createDTO method we made earlier!
+            }
+        }
+        return null;
     }
 
     public String getPhoneNumber() {

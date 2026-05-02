@@ -28,4 +28,8 @@ public class Bike {
     public BikeDTO createDTO() {
         return new BikeDTO(brand, model, serialNumber);
     }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
 }

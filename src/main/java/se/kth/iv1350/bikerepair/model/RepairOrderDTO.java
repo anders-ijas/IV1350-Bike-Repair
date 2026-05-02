@@ -13,7 +13,7 @@ public final class RepairOrderDTO {
     private State state;
     private List<String> diagnosticResults;
     private List<RepairTask> repairTasks;
-    private int price;
+    private Amount totalPrice;
     private BikeDTO bike;
 
     /**
@@ -27,14 +27,14 @@ public final class RepairOrderDTO {
      * @param price Repair orders total price
      * @param bike What bike the repair order is for
      */
-    public RepairOrderDTO(int id, LocalDate date, String customersProblemDescription, State state, List<String> diagnosticResults, List<RepairTask> repairTasks, int price, BikeDTO bike) {
+    public RepairOrderDTO(int id, LocalDate date, String customersProblemDescription, State state, List<String> diagnosticResults, List<RepairTask> repairTasks, Amount price, BikeDTO bike) {
         this.id = id;
         this.date = date;
         this.customersProblemDescription = customersProblemDescription;
         this.state = state;
         this.diagnosticResults = diagnosticResults;
         this.repairTasks = repairTasks;
-        this.price = price;
+        this.totalPrice = price;
         this.bike = bike;
     }
 
@@ -46,8 +46,8 @@ public final class RepairOrderDTO {
         return bike;
     }
 
-    public int getPrice() {
-        return price;
+    public Amount getPrice() {
+        return totalPrice;
     }
 
     public LocalDate getDate() {

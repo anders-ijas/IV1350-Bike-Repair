@@ -51,16 +51,12 @@ public class Controller {
     /**
      * Finding a customers bike based on serial number
      * @param serialNumber The serial number of the bike
-     * @param customer Customer
+     * @param customerDTO Customer
      * @return BikeDTO if found else null
      */
-    public BikeDTO selectBike(String serialNumber, CustomerDTO customer) {
-        for (BikeDTO bike : customer.getBikes()) {
-            if (bike.getSerialNumber().equals(serialNumber )) {
-                return bike;
-            }
-        }
-        return null;
+    public BikeDTO selectBike(String serialNumber, CustomerDTO customerDTO) {
+        Customer customer = custReg.findCustomer(customerDTO.getPhoneNumber());
+        return customer.findBikeBySerial(serialNumber);
     }
 
     /**

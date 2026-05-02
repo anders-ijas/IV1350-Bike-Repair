@@ -14,13 +14,13 @@ public class RepairOrder {
     private State state;
     private List<String> diagnosticResults;
     private List<RepairTask> repairTasks;
-    private int price;
+    private Amount totalPrice;
     private BikeDTO bike;
 
     private static int idCounter = 0;
 
     /**
-     * Creates a new instance.
+     * Creates a new instance with unique id.
      * @param bike Customers bike
      * @param date Date of repair Order
      * @param customersProblemDescription Customers problem description
@@ -31,7 +31,7 @@ public class RepairOrder {
         this.customersProblemDescription = customersProblemDescription;
         this.date = date;
         this.state = State.NEWLY_CREATED;
-        this.price = 0;
+        this.totalPrice = new Amount(0);
         this.diagnosticResults = new ArrayList<>();
         this.repairTasks = new ArrayList<>();
     }
@@ -41,7 +41,7 @@ public class RepairOrder {
      * @return RepairOrderDTO
      */
     public RepairOrderDTO createDTO() {
-        return new RepairOrderDTO(id, date, customersProblemDescription, state, diagnosticResults, repairTasks, price, bike);
+        return new RepairOrderDTO(id, date, customersProblemDescription, state, diagnosticResults, repairTasks, totalPrice, bike);
     }
 
     /**
@@ -58,8 +58,8 @@ public class RepairOrder {
      * @param cost The cost for the repair task
      */
     public void addRepairTask(String task, int cost) {
-        this.repairTasks.add(new RepairTask(task, cost));
-        this.price += cost;
+        this.repairTasks.add(new RepairTask(task, new Amount(cost)));
+        this.totalPrice = this.totalPrice.add(new Amount(cost));
     }
 
     public void setState(State state) {
@@ -68,5 +68,12 @@ public class RepairOrder {
 
     public int getId() {
         return id;
+    }
+
+    /**
+     * Only used in testing to reset id counter
+     */
+    static void resetIdCounter() {
+        idCounter = 0;
     }
 }

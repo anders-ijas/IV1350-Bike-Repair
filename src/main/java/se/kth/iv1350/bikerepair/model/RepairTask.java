@@ -5,14 +5,14 @@ package se.kth.iv1350.bikerepair.model;
  */
 public final class RepairTask {
     private final String taskDescription;
-    private final int cost;
+    private final Amount cost;
 
     /**
      * Creates a new instance.
      * @param taskDescription Task description
      * @param cost Cost of repair
      */
-    public RepairTask(String taskDescription, int cost) {
+    public RepairTask(String taskDescription, Amount cost) {
         this.taskDescription = taskDescription;
         this.cost = cost;
     }
@@ -21,7 +21,7 @@ public final class RepairTask {
         return taskDescription;
     }
 
-    public int getCost() {
+    public Amount getCost() {
         return cost;
     }
 }
