@@ -1,15 +1,17 @@
 package se.kth.iv1350.bikerepair.model;
 
+import java.util.List;
+
 /**
  * A DTO of a RepairOrder in order to transfer information between MVC layers
  */
-public class RepairOrderDTO {
+public final class RepairOrderDTO {
     private final int id;
     private String date;
     private String customersProblemDescription;
-    private String state;
-    private String[] diagnosticResults;
-    private String[] repairTasks;
+    private State state;
+    private List<String> diagnosticResults;
+    private List<RepairTask> repairTasks;
     private int price;
     private BikeDTO bike;
 
@@ -24,7 +26,7 @@ public class RepairOrderDTO {
      * @param price Repair orders total price
      * @param bike What bike the repair order is for
      */
-    public RepairOrderDTO(int id, String date, String customersProblemDescription, String state, String[] diagnosticResults, String[] repairTasks, int price, BikeDTO bike) {
+    public RepairOrderDTO(int id, String date, String customersProblemDescription, State state, List<String> diagnosticResults, List<RepairTask> repairTasks, int price, BikeDTO bike) {
         this.id = id;
         this.date = date;
         this.customersProblemDescription = customersProblemDescription;
@@ -55,15 +57,15 @@ public class RepairOrderDTO {
         return customersProblemDescription;
     }
 
-    public String getState() {
+    public State getState() {
         return state;
     }
 
-    public String[] getDiagnosticResults() {
+    public List<String> getDiagnosticResults() {
         return diagnosticResults;
     }
 
-    public String[] getRepairTasks() {
+    public List<RepairTask> getRepairTasks() {
         return repairTasks;
     }
 }

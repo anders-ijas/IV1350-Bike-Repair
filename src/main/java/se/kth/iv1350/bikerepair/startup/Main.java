@@ -8,7 +8,7 @@ import se.kth.iv1350.bikerepair.integration.RepairOrderRegistry;
 public class Main {
 
     /**
-     * Initializes Registries, Controller and View
+     * Initializes Registries, Controller and View then starts the view
      * @param args
      */
     public static void main(String[] args) {

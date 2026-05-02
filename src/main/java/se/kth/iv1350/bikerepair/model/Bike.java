@@ -1,5 +1,8 @@
 package se.kth.iv1350.bikerepair.model;
 
+/**
+ * A customers bike, a customer can have several bikes
+ */
 public class Bike {
     private final String brand;
     private final String model;
@@ -18,6 +21,10 @@ public class Bike {
         this.serialNumber = serialNumber;
     }
 
+    /**
+     * Creates a DTO to transfer information between layers
+     * @return BikeDTO
+     */
     public BikeDTO createDTO() {
         return new BikeDTO(brand, model, serialNumber);
     }

@@ -3,7 +3,7 @@ package se.kth.iv1350.bikerepair.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDTO {
+public final class CustomerDTO {
     private final String name;
     private final String phoneNumber;
     private final String email;

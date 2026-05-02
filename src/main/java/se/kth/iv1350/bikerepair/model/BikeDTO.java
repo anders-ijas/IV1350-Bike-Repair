@@ -1,6 +1,9 @@
 package se.kth.iv1350.bikerepair.model;
 
-public class BikeDTO {
+/**
+ * A DTO object to transfer information between MVC layers.
+ */
+public final class BikeDTO {
     private final String brand;
     private final String model;
     private final String serialNumber;

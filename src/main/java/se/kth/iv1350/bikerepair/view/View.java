@@ -4,6 +4,7 @@ import se.kth.iv1350.bikerepair.controller.Controller;
 import se.kth.iv1350.bikerepair.model.BikeDTO;
 import se.kth.iv1350.bikerepair.model.CustomerDTO;
 import se.kth.iv1350.bikerepair.model.RepairOrderDTO;
+import se.kth.iv1350.bikerepair.model.RepairTask;
 
 /**
  * An abstraction of the View layer.
@@ -21,7 +22,8 @@ public class View {
     }
 
     /**
-     * Starts the simulated view
+     * Starts the simulated view. All calls from the view to the controller are hardcoded to show how an interaction could take place.
+     *
       */
     public void start() {
         // Receptionist asks customer for number
@@ -38,6 +40,7 @@ public class View {
 
         //Technician asks for repair order (Somehow knowing the orders id)
         RepairOrderDTO repairOrder = contr.getOrder(1);
+
         //Shows information to technician (Prints to console since view layer not implemented)
         System.out.println("\nRepair Order:");
         System.out.println("ID: " + repairOrder.getId());
@@ -47,5 +50,31 @@ public class View {
         System.out.println("Repair Tasks: " + repairOrder.getRepairTasks());
         System.out.println("Diagnostic Tasks: " + repairOrder.getDiagnosticResults());
         System.out.println("Price: " + repairOrder.getPrice());
+        System.out.println("Bike: " + repairOrder.getBike().getBrand() + " | " + repairOrder.getBike().getModel() + " | " + repairOrder.getBike().getSerialNumber());
+
+        //Technician performs diagnostic
+        contr.addDiagnosticResult(repairOrder.getId(), "Front wheel broken");
+        contr.addDiagnosticResult(repairOrder.getId(), "Back wheel broken");
+        contr.addDiagnosticResult(repairOrder.getId(), "No chain");
+
+        //Technician adds proposed repair tasks
+        contr.addRepairTask(repairOrder.getId(), "Buy new front wheel and install", 1000);
+        contr.addRepairTask(repairOrder.getId(), "Buy new back wheel and install", 1200);
+        contr.addRepairTask(repairOrder.getId(), "Buy new chain and install", 800);
+
+        contr.diagnosticsDone(repairOrder.getId());
+
+        //Receptionist informs customer about results and individual costs and total costs
+        repairOrder = contr.getOrder(1);
+
+        // (Prints to console since view layer not implemented)
+        System.out.println("\nRepair Order Tasks and Costs:");
+        for (RepairTask repairTask : repairOrder.getRepairTasks()) {
+            System.out.println(" - " + repairTask.getTaskDescription() + " | " + repairTask.getCost() + " SEK");
+        }
+        System.out.println("Total Cost: " + repairOrder.getPrice());
+
+        // Customer accepts proposed repair tasks and costs
+        contr.printRepair(repairOrder.getId());
     }
 }

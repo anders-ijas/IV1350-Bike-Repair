@@ -62,11 +62,46 @@ public class Controller {
 
     /**
      * Provides a repair order based on a repair order id
-     * @param orderID Repair order id
+     * @param orderId Repair order id
      * @return RepairOrderDTO
      */
-    public RepairOrderDTO getOrder(int orderID) {
-        RepairOrder repairOrder = repOrdReg.getRepairOrder(orderID);
+    public RepairOrderDTO getOrder(int orderId) {
+        RepairOrder repairOrder = repOrdReg.getRepairOrder(orderId);
         return repairOrder.createDTO();
+    }
+
+    /**
+     * Adds a diagnostic result to the repair order based on id
+     * @param repairOrderId repair order id
+     * @param diagTestResult diagnostic test result
+     */
+    public void addDiagnosticResult(int repairOrderId, String diagTestResult) {
+        RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
+        repairOrder.addDiagnosticResult(diagTestResult);
+    }
+
+    /**
+     * Adds a repair task to the repair order based on id
+     * @param repairOrderId Repair order id
+     * @param repairTask Repair task description
+     * @param cost Cost of repair
+     */
+    public void addRepairTask(int repairOrderId, String repairTask, int cost) {
+        RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
+        repairOrder.addRepairTask(repairTask, cost);
+    }
+
+    /**
+     * When technician is done with order the order state is changed to READY_FOR_APPROVAL
+     * @param repairOrderId The order id
+     */
+    public void diagnosticsDone(int repairOrderId) {
+        RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
+        repairOrder.setState(State.READY_FOR_APPROVAL);
+    }
+
+    public void printRepair(int repairOrderId) {
+        RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
+
     }
 }
