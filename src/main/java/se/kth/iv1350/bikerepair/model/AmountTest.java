@@ -46,4 +46,14 @@ class AmountTest {
         assertNotNull(a3);
         assertEquals(new Amount(0).toString(), a3.toString(), "Amount was not equal to 0 which suggest it went below 0");
     }
+
+    @Test
+    void testImmutability() {
+        Amount a1 = new Amount(10);
+        Amount a2 = new Amount(5);
+
+        a1.add(a2);
+
+        assertEquals(new Amount(10).toString(), a1.toString(), "add function should not change existing object.");
+    }
 }
