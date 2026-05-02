@@ -3,6 +3,7 @@ package se.kth.iv1350.bikerepair.integration;
 import se.kth.iv1350.bikerepair.model.BikeDTO;
 import se.kth.iv1350.bikerepair.model.RepairOrder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,8 @@ public class RepairOrderRegistry {
      * @param description Customer problem description
      * @param date The date of the order
      */
-    public void createOrder(BikeDTO bike, String description, String date) {
-        RepairOrder currentOrder = new RepairOrder(bike, description,date);
+    public void createOrder(BikeDTO bike, String description, LocalDate date) {
+        RepairOrder currentOrder = new RepairOrder(bike, description, date);
         repairOrders.add(currentOrder);
     }
 

@@ -13,11 +13,12 @@ public class Printer {
      * Prints out the entire repair order (Since the printer is simulated we print to console instead)
      * @param repairOrderDTO The repair order to print
      */
-    public void printOrder(RepairOrderDTO repairOrderDTO) {
+    public void printOrder(RepairOrderDTO repairOrderDTO, String date) {
         System.out.println("\n --- Printing ----");
         System.out.println("\nRepair Order:");
         System.out.println("ID: " + repairOrderDTO.getId());
         System.out.println("Date: " + repairOrderDTO.getDate());
+        System.out.println("Date Complete: " + date);
         System.out.println("Desc: " + repairOrderDTO.getCustomersProblemDescription());
         System.out.println("State: " + repairOrderDTO.getState());
         for (RepairTask repairTask : repairOrderDTO.getRepairTasks())

@@ -1,5 +1,6 @@
 package se.kth.iv1350.bikerepair.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  */
 public final class RepairOrderDTO {
     private final int id;
-    private String date;
+    private LocalDate date;
     private String customersProblemDescription;
     private State state;
     private List<String> diagnosticResults;
@@ -26,7 +27,7 @@ public final class RepairOrderDTO {
      * @param price Repair orders total price
      * @param bike What bike the repair order is for
      */
-    public RepairOrderDTO(int id, String date, String customersProblemDescription, State state, List<String> diagnosticResults, List<RepairTask> repairTasks, int price, BikeDTO bike) {
+    public RepairOrderDTO(int id, LocalDate date, String customersProblemDescription, State state, List<String> diagnosticResults, List<RepairTask> repairTasks, int price, BikeDTO bike) {
         this.id = id;
         this.date = date;
         this.customersProblemDescription = customersProblemDescription;
@@ -49,7 +50,7 @@ public final class RepairOrderDTO {
         return price;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 

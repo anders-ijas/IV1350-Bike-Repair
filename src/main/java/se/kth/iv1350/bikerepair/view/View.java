@@ -6,6 +6,8 @@ import se.kth.iv1350.bikerepair.model.CustomerDTO;
 import se.kth.iv1350.bikerepair.model.RepairOrderDTO;
 import se.kth.iv1350.bikerepair.model.RepairTask;
 
+import java.time.LocalDate;
+
 /**
  * An abstraction of the View layer.
  *  Simulates the calls to the Controller.
@@ -26,6 +28,7 @@ public class View {
      *
       */
     public void start() {
+        LocalDate date = LocalDate.now();
         // Receptionist asks customer for number
         CustomerDTO customer = contr.enterCustomerInfo("0732221113");
 
@@ -36,7 +39,7 @@ public class View {
         }
         // Receptionist confirms with customer the information
         // Receptionist asks customer for a description of the problem with the bike and which bike
-        contr.enterProblemDescription(customer,"Something wrong with everything!", "111222","Yestermorrow");
+        contr.enterProblemDescription(customer,"Something wrong with everything!", "111222", date);
 
         //Technician asks for repair order (Somehow knowing the orders id)
         RepairOrderDTO repairOrder = contr.getOrder(1);
@@ -76,7 +79,8 @@ public class View {
 
         // Customer accepts proposed repair tasks and costs
         contr.acceptOrder(repairOrder.getId());
-        contr.printRepair(repairOrder.getId());
+        //Since we dont have specified what determines the time we just add a day to the printout
+        contr.printRepair(repairOrder.getId(), date.plusDays(1).toString());
 
         //Receptionist gives order to customer
         //Customer leaves

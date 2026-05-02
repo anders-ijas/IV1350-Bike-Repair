@@ -5,6 +5,8 @@ import se.kth.iv1350.bikerepair.integration.Printer;
 import se.kth.iv1350.bikerepair.integration.RepairOrderRegistry;
 import se.kth.iv1350.bikerepair.model.*;
 
+import java.time.LocalDate;
+
 /**
  *  The controller class that interacts with the view
  *  and model layer.
@@ -41,7 +43,7 @@ public class Controller {
      * @param description Customers problem description
      * @param serialNumber Serial number of bike
      */
-    public void enterProblemDescription(CustomerDTO customer, String description, String serialNumber, String date) {
+    public void enterProblemDescription(CustomerDTO customer, String description, String serialNumber, LocalDate date) {
         BikeDTO bike = selectBike(serialNumber, customer);
         repOrdReg.createOrder(bike, description, date);
     }
@@ -105,10 +107,10 @@ public class Controller {
      * Prints the repair order
      * @param repairOrderId Repair order id
      */
-    public void printRepair(int repairOrderId) {
+    public void printRepair(int repairOrderId, String date) {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
         RepairOrderDTO repairOrderDTO = repairOrder.createDTO();
-        printer.printOrder(repairOrderDTO);
+        printer.printOrder(repairOrderDTO, date);
     }
 
     /**
