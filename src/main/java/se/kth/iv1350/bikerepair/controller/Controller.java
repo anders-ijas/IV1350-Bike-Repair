@@ -1,10 +1,9 @@
 package se.kth.iv1350.bikerepair.controller;
 
 import se.kth.iv1350.bikerepair.integration.CustomerRegistry;
+import se.kth.iv1350.bikerepair.integration.Printer;
 import se.kth.iv1350.bikerepair.integration.RepairOrderRegistry;
 import se.kth.iv1350.bikerepair.model.*;
-
-import java.util.List;
 
 /**
  *  The controller class that interacts with the view
@@ -13,15 +12,17 @@ import java.util.List;
 public class Controller {
     private final CustomerRegistry custReg;
     private final RepairOrderRegistry repOrdReg;
+    private final Printer printer;
 
     /**
      * Creates a new instance.
      * @param custReg The customer registry for the controller
      * @param repOrdReg The repair order registry for the controller
      */
-    public Controller(CustomerRegistry custReg, RepairOrderRegistry repOrdReg) {
+    public Controller(CustomerRegistry custReg, RepairOrderRegistry repOrdReg, Printer printer) {
         this.custReg = custReg;
         this.repOrdReg = repOrdReg;
+        this.printer = printer;
     }
 
     /**
@@ -100,8 +101,22 @@ public class Controller {
         repairOrder.setState(State.READY_FOR_APPROVAL);
     }
 
+    /**
+     * Prints the repair order
+     * @param repairOrderId Repair order id
+     */
     public void printRepair(int repairOrderId) {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
+        RepairOrderDTO repairOrderDTO = repairOrder.createDTO();
+        printer.printOrder(repairOrderDTO);
+    }
 
+    /**
+     * Changes repair order state to accepted
+     * @param repairOrderId Repair order id
+     */
+    public void acceptOrder(int repairOrderId) {
+        RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
+        repairOrder.setState(State.ACCEPTED);
     }
 }

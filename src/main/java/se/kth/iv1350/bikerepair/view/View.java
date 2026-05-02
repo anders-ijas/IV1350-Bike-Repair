@@ -75,6 +75,10 @@ public class View {
         System.out.println("Total Cost: " + repairOrder.getPrice());
 
         // Customer accepts proposed repair tasks and costs
+        contr.acceptOrder(repairOrder.getId());
         contr.printRepair(repairOrder.getId());
+
+        //Receptionist gives order to customer
+        //Customer leaves
     }
 }
