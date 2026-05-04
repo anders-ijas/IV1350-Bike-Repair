@@ -16,12 +16,12 @@ public class RepairOrderRegistry {
 
     /**
      * Creates a new repair order and stores it
-     * @param bike The bike the repair order specifies
+     * @param bikeDTO The bikeDTO the repair order specifies
      * @param description Customer problem description
      * @param date The date of the order
      */
-    public void createOrder(BikeDTO bike, String description, LocalDate date) {
-        RepairOrder currentOrder = new RepairOrder(bike, description, date);
+    public void createOrder(BikeDTO bikeDTO, String description, LocalDate date) {
+        RepairOrder currentOrder = new RepairOrder(bikeDTO, description, date);
         repairOrders.add(currentOrder);
     }
 

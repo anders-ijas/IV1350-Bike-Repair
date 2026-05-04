@@ -30,7 +30,7 @@ public class View {
     public void start() {
         LocalDate date = LocalDate.now();
         // Receptionist asks customer for number
-        CustomerDTO customer = contr.enterCustomerInfo("0732221113");
+        CustomerDTO customer = contr.searchCustomerInfo("0732221113");
 
         // Shows the information (Prints to console since view layer not implemented)
         System.out.println("\nActive Customer: " + customer.getName() + "; " + customer.getEmail() + "; " + customer.getPhoneNumber() + "; ");
@@ -39,7 +39,7 @@ public class View {
         }
         // Receptionist confirms with customer the information
         // Receptionist asks customer for a description of the problem with the bike and which bike
-        contr.enterProblemDescription(customer,"Something wrong with everything!", "111222", date);
+        contr.createNewRepairOrder(customer,"Something wrong with everything!", "111222", date);
 
         //Technician asks for repair order (Somehow knowing the orders id)
         RepairOrderDTO repairOrder = contr.getOrder(1);

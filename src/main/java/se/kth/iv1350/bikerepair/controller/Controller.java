@@ -32,9 +32,12 @@ public class Controller {
      * @param phoneNumber Customers phone number
      * @return CustomerDTO
      */
-    public CustomerDTO enterCustomerInfo(String phoneNumber) {
+    public CustomerDTO searchCustomerInfo(String phoneNumber) {
         Customer customer = custReg.findCustomer(phoneNumber);
-        return customer.createDTO();
+        if (customer != null) {
+            return customer.createDTO();
+        }
+        return null;
     }
 
     /**
@@ -43,7 +46,7 @@ public class Controller {
      * @param description Customers problem description
      * @param serialNumber Serial number of bike
      */
-    public void enterProblemDescription(CustomerDTO customer, String description, String serialNumber, LocalDate date) {
+    public void createNewRepairOrder(CustomerDTO customer, String description, String serialNumber, LocalDate date) {
         BikeDTO bike = selectBike(serialNumber, customer);
         repOrdReg.createOrder(bike, description, date);
     }
@@ -55,8 +58,11 @@ public class Controller {
      * @return BikeDTO if found else null
      */
     public BikeDTO selectBike(String serialNumber, CustomerDTO customerDTO) {
-        Customer customer = custReg.findCustomer(customerDTO.getPhoneNumber());
-        return customer.findBikeBySerial(serialNumber);
+        if (customerDTO != null) {
+            Customer customer = custReg.findCustomer(customerDTO.getPhoneNumber());
+            return customer.findBikeBySerial(serialNumber);
+        }
+        return null;
     }
 
     /**
@@ -66,7 +72,10 @@ public class Controller {
      */
     public RepairOrderDTO getOrder(int orderId) {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(orderId);
-        return repairOrder.createDTO();
+        if (repairOrder != null) {
+            return repairOrder.createDTO();
+        }
+        return null;
     }
 
     /**
@@ -76,7 +85,9 @@ public class Controller {
      */
     public void addDiagnosticResult(int repairOrderId, String diagTestResult) {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
-        repairOrder.addDiagnosticResult(diagTestResult);
+        if (repairOrder != null) {
+            repairOrder.addDiagnosticResult(diagTestResult);
+        }
     }
 
     /**
@@ -87,7 +98,9 @@ public class Controller {
      */
     public void addRepairTask(int repairOrderId, String repairTask, int cost) {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
-        repairOrder.addRepairTask(repairTask, cost);
+        if (repairOrder != null) {
+            repairOrder.addRepairTask(repairTask, cost);
+        }
     }
 
     /**
@@ -96,7 +109,9 @@ public class Controller {
      */
     public void diagnosticsDone(int repairOrderId) {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
-        repairOrder.setState(State.READY_FOR_APPROVAL);
+        if (repairOrder != null) {
+            repairOrder.setState(State.READY_FOR_APPROVAL);
+        }
     }
 
     /**
@@ -105,8 +120,10 @@ public class Controller {
      */
     public void printRepair(int repairOrderId, String date) {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
-        RepairOrderDTO repairOrderDTO = repairOrder.createDTO();
-        printer.printOrder(repairOrderDTO, date);
+        if (repairOrder != null) {
+            RepairOrderDTO repairOrderDTO = repairOrder.createDTO();
+            printer.printOrder(repairOrderDTO, date);
+        }
     }
 
     /**
@@ -115,6 +132,8 @@ public class Controller {
      */
     public void acceptOrder(int repairOrderId) {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
-        repairOrder.setState(State.ACCEPTED);
+        if (repairOrder != null) {
+            repairOrder.setState(State.ACCEPTED);
+        }
     }
 }
