@@ -5,7 +5,6 @@ import se.kth.iv1350.bikerepair.integration.Printer;
 import se.kth.iv1350.bikerepair.integration.RepairOrderRegistry;
 import se.kth.iv1350.bikerepair.model.*;
 
-import java.lang.reflect.Parameter;
 import java.time.LocalDate;
 
 /**
