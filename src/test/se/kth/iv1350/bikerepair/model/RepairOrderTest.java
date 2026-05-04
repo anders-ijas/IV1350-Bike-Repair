@@ -1,7 +1,9 @@
 package se.kth.iv1350.bikerepair.model;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import se.kth.iv1350.bikerepair.model.*;
 
 import java.time.LocalDate;
 
@@ -33,7 +35,7 @@ class RepairOrderTest {
 
     @Test
     void testInitialStateIsNew() {
-        assertEquals(State.NEWLY_CREATED, repairOrderDTO.getState(), "A new order should start in NEWLY_CREATED state.");
+        Assertions.assertEquals(State.NEWLY_CREATED, repairOrderDTO.getState(), "A new order should start in NEWLY_CREATED state.");
         assertTrue(repairOrderDTO.getRepairTasks().isEmpty(), "New order should have no tasks.");
     }
 
@@ -59,7 +61,7 @@ class RepairOrderTest {
         assertNotNull(repairOrderDTO.getRepairTasks());
         assertEquals("fix1", repairOrderDTO.getRepairTasks().get(0).getTaskDescription(), "Task Description does not match at index 0");
         assertEquals("fix2", repairOrderDTO.getRepairTasks().get(1).getTaskDescription(), "Task Description does not match at index 1");
-        assertEquals(new Amount(20).toString(), repairOrderDTO.getRepairTasks().get(0).getCost().toString(), "Cost does not match at index 0");
+        Assertions.assertEquals(new Amount(20).toString(), repairOrderDTO.getRepairTasks().get(0).getCost().toString(), "Cost does not match at index 0");
         assertEquals(new Amount(30).toString(), repairOrderDTO.getRepairTasks().get(1).getCost().toString(), "Cost does not match at index 1");
         assertEquals(new Amount (50).toString(), repairOrderDTO.getPrice().toString(),"Price does not equal total cost of individual items");
     }

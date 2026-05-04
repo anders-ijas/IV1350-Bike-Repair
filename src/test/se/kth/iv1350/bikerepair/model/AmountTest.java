@@ -1,6 +1,7 @@
 package se.kth.iv1350.bikerepair.model;
 
 import org.junit.jupiter.api.Test;
+import se.kth.iv1350.bikerepair.model.Amount;
 
 import static org.junit.jupiter.api.Assertions.*;
 

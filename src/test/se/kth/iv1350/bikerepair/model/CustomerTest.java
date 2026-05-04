@@ -1,6 +1,10 @@
 package se.kth.iv1350.bikerepair.model;
 
 import org.junit.jupiter.api.Test;
+import se.kth.iv1350.bikerepair.model.Bike;
+import se.kth.iv1350.bikerepair.model.BikeDTO;
+import se.kth.iv1350.bikerepair.model.Customer;
+import se.kth.iv1350.bikerepair.model.CustomerDTO;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,8 @@
 package se.kth.iv1350.bikerepair.integration;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import se.kth.iv1350.bikerepair.model.RepairOrder;
 
 import java.time.LocalDate;
@@ -8,6 +10,11 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RepairOrderRegistryTest {
+
+    @BeforeEach
+    void setUp() {
+        RepairOrder.resetIdCounter();
+    }
 
     @Test
     void createOrderAndGetOrder() {

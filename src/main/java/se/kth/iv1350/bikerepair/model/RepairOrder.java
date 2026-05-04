@@ -73,7 +73,7 @@ public class RepairOrder {
     /**
      * Only used in testing to reset id counter
      */
-    static void resetIdCounter() {
+    public static void resetIdCounter() {
         idCounter = 0;
     }
 }
