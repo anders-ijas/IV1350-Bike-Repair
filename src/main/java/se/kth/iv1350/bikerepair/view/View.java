@@ -30,6 +30,7 @@ public class View {
     public void start() {
         LocalDate date = LocalDate.now();
         // Receptionist asks customer for number
+        System.out.println("\n--- Searching for Customer ---");
         CustomerDTO customer = contr.searchCustomerInfo("0732221113");
 
         // Shows the information (Prints to console since view layer not implemented)
@@ -44,6 +45,7 @@ public class View {
         //Technician asks for repair order (Somehow knowing the orders id)
         RepairOrderDTO repairOrder = contr.getOrder(1);
 
+        System.out.println("\n--- Technician brings upp information ---");
         //Shows information to technician (Prints to console since view layer not implemented)
         System.out.println("\nRepair Order:");
         System.out.println("ID: " + repairOrder.getId());
@@ -71,6 +73,7 @@ public class View {
         repairOrder = contr.getOrder(1);
 
         // (Prints to console since view layer not implemented)
+        System.out.println("\n--- Repair tasks and costs ---");
         System.out.println("\nRepair Order Tasks and Costs:");
         for (RepairTask repairTask : repairOrder.getRepairTasks()) {
             System.out.println(" - " + repairTask.getTaskDescription() + " | " + repairTask.getCost() + " SEK");
