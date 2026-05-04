@@ -76,7 +76,7 @@ public class View {
         System.out.println("\n--- Repair tasks and costs ---");
         System.out.println("\nRepair Order Tasks and Costs:");
         for (RepairTask repairTask : repairOrder.getRepairTasks()) {
-            System.out.println(" - " + repairTask.getTaskDescription() + " | " + repairTask.getCost() + " SEK");
+            System.out.println(" - " + repairTask.getTaskDescription() + " | " + repairTask.getCost());
         }
         System.out.println("Total Cost: " + repairOrder.getPrice());
 
