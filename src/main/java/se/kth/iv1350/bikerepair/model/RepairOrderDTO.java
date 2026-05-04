@@ -38,34 +38,66 @@ public final class RepairOrderDTO {
         this.bike = bike;
     }
 
+    /**
+     * Get the repair order id
+     * @return int
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Get the bikeDTO
+     * @return BikeDTO
+     */
     public BikeDTO getBike() {
         return bike;
     }
 
+    /**
+     * Get the total price of repair order
+     * @return Amount
+     */
     public Amount getPrice() {
         return totalPrice;
     }
 
+    /**
+     * Get the date of the repair order
+     * @return LocalDate
+     */
     public LocalDate getDate() {
         return date;
     }
 
+    /**
+     * Gets the customers problem description
+     * @return String
+     */
     public String getCustomersProblemDescription() {
         return customersProblemDescription;
     }
 
+    /**
+     * Gets the state of the repair order
+     * @return State
+     */
     public State getState() {
         return state;
     }
 
+    /**
+     * Gets the list of diagnostic results
+     * @return List<String>
+     */
     public List<String> getDiagnosticResults() {
         return diagnosticResults;
     }
 
+    /**
+     * Gets the list of repair tasks
+     * @return List<RepairTask>
+     */
     public List<RepairTask> getRepairTasks() {
         return repairTasks;
     }

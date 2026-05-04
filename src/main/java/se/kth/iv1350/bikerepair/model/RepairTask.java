@@ -17,10 +17,18 @@ public final class RepairTask {
         this.cost = cost;
     }
 
+    /**
+     * Gets the task description
+     * @return String
+     */
     public String getTaskDescription() {
         return taskDescription;
     }
 
+    /**
+     * Gets the cost
+     * @return Amount
+     */
     public Amount getCost() {
         return cost;
     }

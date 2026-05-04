@@ -53,6 +53,10 @@ public class Customer {
         return null;
     }
 
+    /**
+     * Gets the phone number
+     * @return String
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }

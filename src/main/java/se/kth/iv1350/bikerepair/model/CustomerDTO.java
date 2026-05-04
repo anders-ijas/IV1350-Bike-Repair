@@ -26,18 +26,34 @@ public final class CustomerDTO {
         this.bikes = bikes;
     }
 
+    /**
+     * Gets the name of customer
+     * @return String
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Gets the email of customer
+     * @return String
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Gets the phone number of customer
+     * @return String
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    /**
+     * Gets the bikes of customer
+     * @return List<BikeDTO>
+     */
     public List<BikeDTO> getBikes() {
         return bikes;
     }

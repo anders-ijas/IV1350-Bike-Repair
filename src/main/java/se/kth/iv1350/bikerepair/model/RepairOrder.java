@@ -62,10 +62,18 @@ public class RepairOrder {
         this.totalPrice = this.totalPrice.add(new Amount(cost));
     }
 
+    /**
+     * Sets the state of the repair order
+     * @param state The new state
+     */
     public void setState(State state) {
         this.state = state;
     }
 
+    /**
+     * Returns the id of the repair order
+     * @return int
+     */
     public int getId() {
         return id;
     }

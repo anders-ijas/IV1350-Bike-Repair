@@ -21,14 +21,26 @@ public final class BikeDTO {
         this.serialNumber = serialNumber;
     }
 
+    /**
+     * Gets the brand of the bike
+     * @return String
+     */
     public String getBrand() {
         return brand;
     }
 
+    /**
+     * Gets the model of the bike
+     * @return String
+     */
     public String getModel() {
         return model;
     }
 
+    /**
+     * Gets the serial number of the bike
+     * @return String
+     */
     public String getSerialNumber() {
         return serialNumber;
     }
