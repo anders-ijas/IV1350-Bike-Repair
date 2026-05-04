@@ -5,6 +5,7 @@ import se.kth.iv1350.bikerepair.integration.Printer;
 import se.kth.iv1350.bikerepair.integration.RepairOrderRegistry;
 import se.kth.iv1350.bikerepair.model.*;
 
+import java.lang.reflect.Parameter;
 import java.time.LocalDate;
 
 /**
@@ -108,10 +109,7 @@ public class Controller {
      * @param repairOrderId The order id
      */
     public void diagnosticsDone(int repairOrderId) {
-        RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
-        if (repairOrder != null) {
-            repairOrder.setState(State.READY_FOR_APPROVAL);
-        }
+        changeState(State.READY_FOR_APPROVAL,repairOrderId);
     }
 
     /**
@@ -131,9 +129,18 @@ public class Controller {
      * @param repairOrderId Repair order id
      */
     public void acceptOrder(int repairOrderId) {
+        changeState(State.ACCEPTED,repairOrderId);
+    }
+
+    /**
+     * Changes the state of the specified repair order
+     * @param state What the state should change to
+     * @param repairOrderId The repair order id
+     */
+    private void changeState(State state, int repairOrderId) {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
         if (repairOrder != null) {
-            repairOrder.setState(State.ACCEPTED);
+            repairOrder.setState(state);
         }
     }
 }
