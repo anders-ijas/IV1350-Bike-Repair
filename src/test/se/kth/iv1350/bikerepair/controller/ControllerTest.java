@@ -2,6 +2,7 @@ package se.kth.iv1350.bikerepair.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import se.kth.iv1350.bikerepair.integration.CustomerNotFoundException;
 import se.kth.iv1350.bikerepair.integration.CustomerRegistry;
 import se.kth.iv1350.bikerepair.integration.Printer;
 import se.kth.iv1350.bikerepair.integration.RepairOrderRegistry;
@@ -23,7 +24,7 @@ class ControllerTest {
     }
 
     @Test
-    void searchCustomerInfo() {
+    void searchCustomerInfo() throws CustomerNotFoundException {
         String phoneNumber = "0732221113"; //Bob
 
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
@@ -36,22 +37,22 @@ class ControllerTest {
     void searchNonExistentCustomerInfo() {
         String phoneNumber = "99999999999";
 
-        CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
-
-        assertNull(customerDTO,"Should not return customer if customer doesnt exist");
+        assertThrows(CustomerNotFoundException.class, () -> {
+            contr.searchCustomerInfo(phoneNumber);
+        }, "If customer does not exist, CustomerNotFoundException should be thrown");
     }
 
     @Test
     void searchNullCustomerInfo() {
         String phoneNumber = null;
 
-        CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
-
-        assertNull(customerDTO,"Should return null if searching for null");
+        assertThrows(CustomerNotFoundException.class, () -> {
+            contr.searchCustomerInfo(phoneNumber);
+        }, "If phone number is null, CustomerNotFoundException should be thrown");
     }
 
     @Test
-    void createNewRepairOrder() {
+    void createNewRepairOrder() throws CustomerNotFoundException{
         String phoneNumber = "0732221113"; //Bob
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
         String serialNumber = customerDTO.getBikes().get(1).getSerialNumber();
@@ -67,7 +68,7 @@ class ControllerTest {
     }
 
     @Test
-    void selectBike() {
+    void selectBike() throws CustomerNotFoundException{
         String phoneNumber = "0732221113"; //Bob
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
         String serialNumber = customerDTO.getBikes().get(1).getSerialNumber();
@@ -79,7 +80,7 @@ class ControllerTest {
     }
 
     @Test
-    void selectNonExistentBike() {
+    void selectNonExistentBike() throws CustomerNotFoundException{
         String phoneNumber = "0732221113"; //Bob
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
         String serialNumber = "AAAAAAAAAAAAAAAAA";
@@ -89,7 +90,7 @@ class ControllerTest {
     }
 
     @Test
-    void searchBikeNullCustomer() {
+    void searchBikeNullCustomer() throws CustomerNotFoundException{
         String serialNumber = "123";
 
         BikeDTO bikeDTO = contr.selectBike(serialNumber,null);
@@ -98,7 +99,7 @@ class ControllerTest {
     }
 
     @Test
-    void searchBikeNullSerialNumber() {
+    void searchBikeNullSerialNumber() throws CustomerNotFoundException{
         String serialNumber = null;
         String phoneNumber = "0732221113"; //Bob
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
@@ -109,7 +110,7 @@ class ControllerTest {
     }
 
     @Test
-    void getOrder() {
+    void getOrder() throws CustomerNotFoundException{
         String phoneNumber = "0732221113"; //Bob
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
         BikeDTO bikeDTO = customerDTO.getBikes().get(1);

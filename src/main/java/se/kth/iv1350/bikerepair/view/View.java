@@ -1,6 +1,7 @@
 package se.kth.iv1350.bikerepair.view;
 
 import se.kth.iv1350.bikerepair.controller.Controller;
+import se.kth.iv1350.bikerepair.integration.CustomerNotFoundException;
 import se.kth.iv1350.bikerepair.model.BikeDTO;
 import se.kth.iv1350.bikerepair.model.CustomerDTO;
 import se.kth.iv1350.bikerepair.model.RepairOrderDTO;
@@ -28,10 +29,16 @@ public class View {
      *
       */
     public void start() {
+        CustomerDTO customer = null;
+
         LocalDate date = LocalDate.now();
         // Receptionist asks customer for number
         System.out.println("\n--- Searching for Customer ---");
-        CustomerDTO customer = contr.searchCustomerInfo("0732221113");
+        try {
+             customer = contr.searchCustomerInfo("0732221113");
+        } catch(CustomerNotFoundException e) {
+            System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
+        }
 
         // Shows the information (Prints to console since view layer not implemented)
         System.out.println("\nActive Customer: " + customer.getName() + "; " + customer.getEmail() + "; " + customer.getPhoneNumber() + "; ");
@@ -40,8 +47,11 @@ public class View {
         }
         // Receptionist confirms with customer the information
         // Receptionist asks customer for a description of the problem with the bike and which bike
-        contr.createNewRepairOrder(customer,"Something wrong with everything!", "111222", date);
-
+        try {
+            contr.createNewRepairOrder(customer, "Something wrong with everything!", "111222", date);
+        } catch(CustomerNotFoundException e) {
+            System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
+        }
         //Technician asks for repair order (Somehow knowing the orders id)
         RepairOrderDTO repairOrder = contr.getOrder(1);
 

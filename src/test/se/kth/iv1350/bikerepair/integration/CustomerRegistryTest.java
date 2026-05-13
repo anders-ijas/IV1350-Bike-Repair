@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomerRegistryTest {
 
     @Test
-    void findCustomer() {
+    void findCustomer() throws CustomerNotFoundException{
         CustomerRegistry customerRegistry = new CustomerRegistry();
 
         //From previous customers list that is added when creating registry (Example data)
@@ -23,19 +23,17 @@ class CustomerRegistryTest {
     void noFindCustomer() {
         CustomerRegistry customerRegistry = new CustomerRegistry();
 
-        //From previous customers list that is added when creating registry (Example data)
-        Customer customer = customerRegistry.findCustomer("99999999999999");
-
-        assertNull(customer, "Customer should not be found");
+        assertThrows(CustomerNotFoundException.class, () -> {
+            customerRegistry.findCustomer("99999999999999");
+        }, "If customer does not exist, CustomerNotFoundException should be thrown");
     }
 
     @Test
     void nullHandlingFindCustomer() {
         CustomerRegistry customerRegistry = new CustomerRegistry();
 
-        //From previous customers list that is added when creating registry (Example data)
-        Customer customer = customerRegistry.findCustomer(null);
-
-        assertNull(customer, "Should return null");
+        assertThrows(CustomerNotFoundException.class, () -> {
+            customerRegistry.findCustomer(null);
+        }, "If phone number does not exist, CustomerNotFoundException should be thrown");
     }
 }

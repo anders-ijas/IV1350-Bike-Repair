@@ -21,7 +21,7 @@ public class RepairOrderRegistry {
      * @param date The date of the order
      */
     public void createOrder(BikeDTO bikeDTO, String description, LocalDate date) {
-        RepairOrder currentOrder = new RepairOrder(bikeDTO, description, date);
+        RepairOrder currentOrder = new RepairOrder(bikeDTO,description,date);
         repairOrders.add(currentOrder);
     }
 

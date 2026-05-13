@@ -1,5 +1,6 @@
 package se.kth.iv1350.bikerepair.controller;
 
+import se.kth.iv1350.bikerepair.integration.CustomerNotFoundException;
 import se.kth.iv1350.bikerepair.integration.CustomerRegistry;
 import se.kth.iv1350.bikerepair.integration.Printer;
 import se.kth.iv1350.bikerepair.integration.RepairOrderRegistry;
@@ -31,13 +32,11 @@ public class Controller {
      * Finds the Customer through their phone number
      * @param phoneNumber Customers phone number
      * @return CustomerDTO
+     * @throws CustomerNotFoundException if no customer is found
      */
-    public CustomerDTO searchCustomerInfo(String phoneNumber) {
+    public CustomerDTO searchCustomerInfo(String phoneNumber) throws CustomerNotFoundException {
         Customer customer = custReg.findCustomer(phoneNumber);
-        if (customer != null) {
-            return customer.createDTO();
-        }
-        return null;
+        return customer.createDTO();
     }
 
     /**
@@ -45,8 +44,9 @@ public class Controller {
      * @param customer Relevant customer
      * @param description Customers problem description
      * @param serialNumber Serial number of bike
+     * @throws CustomerNotFoundException If customer not found
      */
-    public void createNewRepairOrder(CustomerDTO customer, String description, String serialNumber, LocalDate date) {
+    public void createNewRepairOrder(CustomerDTO customer, String description, String serialNumber, LocalDate date) throws CustomerNotFoundException{
         BikeDTO bike = selectBike(serialNumber, customer);
         repOrdReg.createOrder(bike, description, date);
     }
@@ -56,8 +56,9 @@ public class Controller {
      * @param serialNumber The serial number of the bike
      * @param customerDTO Customer
      * @return BikeDTO if found else null
+     * @throws CustomerNotFoundException If customer not found
      */
-    public BikeDTO selectBike(String serialNumber, CustomerDTO customerDTO) {
+    public BikeDTO selectBike(String serialNumber, CustomerDTO customerDTO) throws CustomerNotFoundException {
         if (customerDTO != null) {
             Customer customer = custReg.findCustomer(customerDTO.getPhoneNumber());
             return customer.findBikeBySerial(serialNumber);

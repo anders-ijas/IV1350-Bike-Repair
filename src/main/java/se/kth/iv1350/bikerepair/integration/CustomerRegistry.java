@@ -38,13 +38,15 @@ public class CustomerRegistry {
      * Finds Customer associated with phone number
      * @param phoneNumber Customers phone number
      * @return Customer
+     * @throws CustomerNotFoundException if the customer is not found.
      */
-    public Customer findCustomer(String phoneNumber) {
+    public Customer findCustomer(String phoneNumber) throws CustomerNotFoundException {
         for (Customer customer : customers) {
             if (customer.getPhoneNumber().equals(phoneNumber)) {
                 return customer;
             }
         }
-        return null;
+        throw new CustomerNotFoundException(phoneNumber);
     }
+
 }
