@@ -17,6 +17,7 @@ public class RepairOrderLogger implements RepairOrderObserver {
                 "Repair Order Description: " + repairOrderDTO.getCustomersProblemDescription() + "\n" +
                 "Repair Order State: " + repairOrderDTO.getState() + "\n" +
                 "--- ---\n";
-        FileLogger.log(message);
+        FileLogger fileLogger = FileLogger.getInstance();
+        fileLogger.log(message);
     }
 }

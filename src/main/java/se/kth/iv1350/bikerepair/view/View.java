@@ -43,7 +43,8 @@ public class View {
             System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
         } catch (DataBaseFailureException e) {
             System.out.println("ERROR: Could not connect to server");
-            FileLogger.log(e.getMessage());
+            FileLogger fileLogger = FileLogger.getInstance();
+            fileLogger.log(e.getMessage());
         }
 
         // Shows the information (Prints to console since view layer not implemented)
@@ -59,7 +60,8 @@ public class View {
             System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
         } catch (DataBaseFailureException e) {
             System.out.println("ERROR: Could not connect to server");
-            FileLogger.log(e.getMessage());
+            FileLogger fileLogger = FileLogger.getInstance();
+            fileLogger.log(e.getMessage());
         }
 
         //Technician knows order ID from the RepairOrderView
@@ -80,7 +82,8 @@ public class View {
 
             contr.diagnosticsDone(repairOrder.getId());
         } catch (DataBaseFailureException e) {
-            FileLogger.log(e.getMessage());
+            FileLogger fileLogger = FileLogger.getInstance();
+            fileLogger.log(e.getMessage());
         }
 
         try {
@@ -103,7 +106,8 @@ public class View {
             //Receptionist gives order to customer
             //Customer leaves}
         } catch (DataBaseFailureException e) {
-            FileLogger.log(e.getMessage());
+            FileLogger fileLogger = FileLogger.getInstance();
+            fileLogger.log(e.getMessage());
         }
     }
 }
