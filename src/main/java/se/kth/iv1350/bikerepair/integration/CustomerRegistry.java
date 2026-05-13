@@ -43,7 +43,7 @@ public class CustomerRegistry {
      */
     public Customer findCustomer(String phoneNumber) throws CustomerNotFoundException, DataBaseFailureException {
         if ("503".equals(phoneNumber)) {
-            throw new DataBaseFailureException("Database unreachable during findCustomer");
+            throw new DataBaseFailureException("Database unreachable during findCustomer. ");
         }
 
         for (Customer customer : customers) {

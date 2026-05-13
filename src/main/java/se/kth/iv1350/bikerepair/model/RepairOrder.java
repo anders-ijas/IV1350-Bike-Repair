@@ -1,5 +1,7 @@
 package se.kth.iv1350.bikerepair.model;
 
+import se.kth.iv1350.bikerepair.model.discountstrategy.DiscountStrategy;
+import se.kth.iv1350.bikerepair.model.discountstrategy.NoDiscount;
 import se.kth.iv1350.bikerepair.view.RepairOrderView;
 
 import java.time.LocalDate;
@@ -18,6 +20,7 @@ public class RepairOrder {
     private List<RepairTask> repairTasks;
     private Amount totalPrice;
     private BikeDTO bike;
+    private DiscountStrategy discountStrategy = new NoDiscount();
 
     private static int idCounter = 0;
 
@@ -39,11 +42,11 @@ public class RepairOrder {
     }
 
     /**
-     * Creates a DTO to transfer information between MVC layers.
+     * Creates a DTO to transfer information between MVC layers. The final price is calculated with discount.
      * @return RepairOrderDTO
      */
     public RepairOrderDTO createDTO() {
-        return new RepairOrderDTO(id, date, customersProblemDescription, state, diagnosticResults, repairTasks, totalPrice, bike);
+        return new RepairOrderDTO(id, date, customersProblemDescription, state, diagnosticResults, repairTasks, discountStrategy.calculateDiscount(totalPrice), bike);
     }
 
     /**
@@ -85,5 +88,13 @@ public class RepairOrder {
      */
     public static void resetIdCounter() {
         idCounter = 0;
+    }
+
+    /**
+     * Sets the discount strategy for this repair order
+     * @param strategy The discount strategy to use
+     */
+    public void setDiscountingStrategy(DiscountStrategy strategy) {
+        this.discountStrategy = strategy;
     }
 }

@@ -35,7 +35,7 @@ public class RepairOrderRegistry {
      */
     public RepairOrder getRepairOrder(int orderID) throws DataBaseFailureException {
         if (orderID == 503) {
-            throw new DataBaseFailureException("Database unreachable during getRepairOrder");
+            throw new DataBaseFailureException("Database unreachable during getRepairOrder. ");
         }
 
         for (RepairOrder repairOrder : repairOrders) {

@@ -1,5 +1,7 @@
 package se.kth.iv1350.bikerepair.model;
 
+import se.kth.iv1350.bikerepair.model.discountstrategy.DiscountStrategy;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public final class RepairOrderDTO {
     private State state;
     private List<String> diagnosticResults;
     private List<RepairTask> repairTasks;
-    private Amount totalPrice;
+    private Amount finalPrice;
     private BikeDTO bike;
 
     /**
@@ -24,7 +26,7 @@ public final class RepairOrderDTO {
      * @param state Repair order state
      * @param diagnosticResults Repair orders diagnostic results
      * @param repairTasks Repair orders repair tasks
-     * @param price Repair orders total price
+     * @param price Repair orders total price accounted for discounts
      * @param bike What bike the repair order is for
      */
     public RepairOrderDTO(int id, LocalDate date, String customersProblemDescription, State state, List<String> diagnosticResults, List<RepairTask> repairTasks, Amount price, BikeDTO bike) {
@@ -34,7 +36,7 @@ public final class RepairOrderDTO {
         this.state = state;
         this.diagnosticResults = diagnosticResults;
         this.repairTasks = repairTasks;
-        this.totalPrice = price;
+        this.finalPrice = price;
         this.bike = bike;
     }
 
@@ -59,7 +61,7 @@ public final class RepairOrderDTO {
      * @return Amount
      */
     public Amount getPrice() {
-        return totalPrice;
+        return finalPrice;
     }
 
     /**

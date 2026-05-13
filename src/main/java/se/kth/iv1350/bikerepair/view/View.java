@@ -43,8 +43,7 @@ public class View {
             System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
         } catch (DataBaseFailureException e) {
             System.out.println("ERROR: Could not connect to server");
-            FileLogger fileLogger = FileLogger.getInstance();
-            fileLogger.log(e.getMessage());
+            FileLogger.getInstance().log(e.getMessage());
         }
 
         // Shows the information (Prints to console since view layer not implemented)
@@ -60,8 +59,7 @@ public class View {
             System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
         } catch (DataBaseFailureException e) {
             System.out.println("ERROR: Could not connect to server");
-            FileLogger fileLogger = FileLogger.getInstance();
-            fileLogger.log(e.getMessage());
+            FileLogger.getInstance().log(e.getMessage());
         }
 
         //Technician knows order ID from the RepairOrderView
@@ -82,8 +80,8 @@ public class View {
 
             contr.diagnosticsDone(repairOrder.getId());
         } catch (DataBaseFailureException e) {
-            FileLogger fileLogger = FileLogger.getInstance();
-            fileLogger.log(e.getMessage());
+            System.out.println("ERROR: Could not connect to server");
+            FileLogger.getInstance().log(e.getMessage());
         }
 
         try {
@@ -106,8 +104,30 @@ public class View {
             //Receptionist gives order to customer
             //Customer leaves}
         } catch (DataBaseFailureException e) {
-            FileLogger fileLogger = FileLogger.getInstance();
-            fileLogger.log(e.getMessage());
+            System.out.println("ERROR: Could not connect to server");
+            FileLogger.getInstance().log(e.getMessage());
+        }
+
+        //Showing what a DataBaseFailureException could look like
+        System.out.println("\n --- Hardcoded DataBaseFailureException Showcase ---");
+        try {
+            contr.searchCustomerInfo("503");
+        } catch (CustomerNotFoundException e) {
+            System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
+        } catch (DataBaseFailureException e) {
+            System.out.println("ERROR: Could not connect to server");
+            FileLogger.getInstance().log(e.getMessage());
+        }
+
+        //Showing what a CustomerNotFoundException could look like
+        System.out.println("\n --- Hardcoded CustomerNotFoundException Showcase ---");
+        try {
+            contr.searchCustomerInfo("9999999999999");
+        } catch (CustomerNotFoundException e) {
+            System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
+        } catch (DataBaseFailureException e) {
+            System.out.println("ERROR: Could not connect to server");
+            FileLogger.getInstance().log(e.getMessage());
         }
     }
 }
