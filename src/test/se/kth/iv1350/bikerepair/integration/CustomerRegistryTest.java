@@ -36,4 +36,15 @@ class CustomerRegistryTest {
             customerRegistry.findCustomer(null);
         }, "If phone number does not exist, CustomerNotFoundException should be thrown");
     }
+
+    @Test
+    void exceptionContainsSameNumber() {
+        String number = "alsdkjf";
+        CustomerRegistry customerRegistry = new CustomerRegistry();
+
+        CustomerNotFoundException e = assertThrows(CustomerNotFoundException.class, () -> {
+            customerRegistry.findCustomer(number);
+        });
+        assertTrue(e.getMessage().contains(number));
+    }
 }
