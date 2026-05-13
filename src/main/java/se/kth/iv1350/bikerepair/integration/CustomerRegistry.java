@@ -39,8 +39,13 @@ public class CustomerRegistry {
      * @param phoneNumber Customers phone number
      * @return Customer
      * @throws CustomerNotFoundException if the customer is not found.
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
      */
-    public Customer findCustomer(String phoneNumber) throws CustomerNotFoundException {
+    public Customer findCustomer(String phoneNumber) throws CustomerNotFoundException, DataBaseFailureException {
+        if ("503".equals(phoneNumber)) {
+            throw new DataBaseFailureException("Database unreachable during findCustomer");
+        }
+
         for (Customer customer : customers) {
             if (customer.getPhoneNumber().equals(phoneNumber)) {
                 return customer;

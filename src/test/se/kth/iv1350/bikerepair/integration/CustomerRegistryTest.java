@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomerRegistryTest {
 
     @Test
-    void findCustomer() throws CustomerNotFoundException{
+    void findCustomer() throws CustomerNotFoundException,DataBaseFailureException{
         CustomerRegistry customerRegistry = new CustomerRegistry();
 
         //From previous customers list that is added when creating registry (Example data)

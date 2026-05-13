@@ -17,7 +17,7 @@ class RepairOrderRegistryTest {
     }
 
     @Test
-    void createOrderAndGetOrder() {
+    void createOrderAndGetOrder() throws DataBaseFailureException {
         RepairOrderRegistry repairOrderRegistry = new RepairOrderRegistry();
         LocalDate localDate = LocalDate.now();
 
@@ -28,10 +28,25 @@ class RepairOrderRegistryTest {
     }
 
     @Test
-    void getNonExistentOrder() {
+    void getNonExistentOrder() throws DataBaseFailureException {
         RepairOrderRegistry repairOrderRegistry = new RepairOrderRegistry();
         RepairOrder repairOrder = repairOrderRegistry.getRepairOrder(999);
 
         assertNull(repairOrder,"A repair order that doesnt exist should return null");
+    }
+
+    @Test
+    void stateShouldNotChangeOnDatabaseFailure() {
+        RepairOrderRegistry registry = new RepairOrderRegistry();
+        int expectedSize = 0;
+        int hardcodedFailureId = 503;
+
+        try {
+            registry.getRepairOrder(hardcodedFailureId);
+        } catch (DataBaseFailureException e) {
+
+        }
+
+        assertEquals(expectedSize, registry.getNumberOfRepairOrders());
     }
 }

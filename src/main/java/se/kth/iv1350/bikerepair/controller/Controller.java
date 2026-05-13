@@ -1,9 +1,6 @@
 package se.kth.iv1350.bikerepair.controller;
 
-import se.kth.iv1350.bikerepair.integration.CustomerNotFoundException;
-import se.kth.iv1350.bikerepair.integration.CustomerRegistry;
-import se.kth.iv1350.bikerepair.integration.Printer;
-import se.kth.iv1350.bikerepair.integration.RepairOrderRegistry;
+import se.kth.iv1350.bikerepair.integration.*;
 import se.kth.iv1350.bikerepair.model.*;
 
 import java.time.LocalDate;
@@ -33,8 +30,9 @@ public class Controller {
      * @param phoneNumber Customers phone number
      * @return CustomerDTO
      * @throws CustomerNotFoundException if no customer is found
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
      */
-    public CustomerDTO searchCustomerInfo(String phoneNumber) throws CustomerNotFoundException {
+    public CustomerDTO searchCustomerInfo(String phoneNumber) throws CustomerNotFoundException, DataBaseFailureException {
         Customer customer = custReg.findCustomer(phoneNumber);
         return customer.createDTO();
     }
@@ -45,8 +43,9 @@ public class Controller {
      * @param description Customers problem description
      * @param serialNumber Serial number of bike
      * @throws CustomerNotFoundException If customer not found
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
      */
-    public void createNewRepairOrder(CustomerDTO customer, String description, String serialNumber, LocalDate date) throws CustomerNotFoundException{
+    public void createNewRepairOrder(CustomerDTO customer, String description, String serialNumber, LocalDate date) throws CustomerNotFoundException, DataBaseFailureException{
         BikeDTO bike = selectBike(serialNumber, customer);
         repOrdReg.createOrder(bike, description, date);
     }
@@ -57,8 +56,9 @@ public class Controller {
      * @param customerDTO Customer
      * @return BikeDTO if found else null
      * @throws CustomerNotFoundException If customer not found
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
      */
-    public BikeDTO selectBike(String serialNumber, CustomerDTO customerDTO) throws CustomerNotFoundException {
+    public BikeDTO selectBike(String serialNumber, CustomerDTO customerDTO) throws CustomerNotFoundException, DataBaseFailureException {
         if (customerDTO != null) {
             Customer customer = custReg.findCustomer(customerDTO.getPhoneNumber());
             return customer.findBikeBySerial(serialNumber);
@@ -70,8 +70,9 @@ public class Controller {
      * Provides a repair order based on a repair order id
      * @param orderId Repair order id
      * @return RepairOrderDTO
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
      */
-    public RepairOrderDTO getOrder(int orderId) {
+    public RepairOrderDTO getOrder(int orderId) throws DataBaseFailureException {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(orderId);
         if (repairOrder != null) {
             return repairOrder.createDTO();
@@ -83,8 +84,9 @@ public class Controller {
      * Adds a diagnostic result to the repair order based on id
      * @param repairOrderId repair order id
      * @param diagTestResult diagnostic test result
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
      */
-    public void addDiagnosticResult(int repairOrderId, String diagTestResult) {
+    public void addDiagnosticResult(int repairOrderId, String diagTestResult) throws DataBaseFailureException {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
         if (repairOrder != null) {
             repairOrder.addDiagnosticResult(diagTestResult);
@@ -97,7 +99,7 @@ public class Controller {
      * @param repairTask Repair task description
      * @param cost Cost of repair
      */
-    public void addRepairTask(int repairOrderId, String repairTask, int cost) {
+    public void addRepairTask(int repairOrderId, String repairTask, int cost) throws DataBaseFailureException {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
         if (repairOrder != null) {
             repairOrder.addRepairTask(repairTask, cost);
@@ -108,7 +110,7 @@ public class Controller {
      * When technician is done with order the order state is changed to READY_FOR_APPROVAL
      * @param repairOrderId The order id
      */
-    public void diagnosticsDone(int repairOrderId) {
+    public void diagnosticsDone(int repairOrderId) throws DataBaseFailureException {
         repOrdReg.changeState(State.READY_FOR_APPROVAL,repairOrderId);
     }
 
@@ -116,7 +118,7 @@ public class Controller {
      * Prints the repair order
      * @param repairOrderId Repair order id
      */
-    public void printRepair(int repairOrderId, String date) {
+    public void printRepair(int repairOrderId, String date) throws DataBaseFailureException {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
         if (repairOrder != null) {
             RepairOrderDTO repairOrderDTO = repairOrder.createDTO();
@@ -128,7 +130,7 @@ public class Controller {
      * Changes repair order state to accepted
      * @param repairOrderId Repair order id
      */
-    public void acceptOrder(int repairOrderId) {
+    public void acceptOrder(int repairOrderId) throws DataBaseFailureException {
         repOrdReg.changeState(State.ACCEPTED,repairOrderId);
     }
 

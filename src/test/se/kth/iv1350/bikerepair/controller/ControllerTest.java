@@ -2,10 +2,7 @@ package se.kth.iv1350.bikerepair.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import se.kth.iv1350.bikerepair.integration.CustomerNotFoundException;
-import se.kth.iv1350.bikerepair.integration.CustomerRegistry;
-import se.kth.iv1350.bikerepair.integration.Printer;
-import se.kth.iv1350.bikerepair.integration.RepairOrderRegistry;
+import se.kth.iv1350.bikerepair.integration.*;
 import se.kth.iv1350.bikerepair.model.*;
 
 import java.time.LocalDate;
@@ -24,7 +21,7 @@ class ControllerTest {
     }
 
     @Test
-    void searchCustomerInfo() throws CustomerNotFoundException {
+    void searchCustomerInfo() throws CustomerNotFoundException, DataBaseFailureException {
         String phoneNumber = "0732221113"; //Bob
 
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
@@ -52,7 +49,7 @@ class ControllerTest {
     }
 
     @Test
-    void createNewRepairOrder() throws CustomerNotFoundException{
+    void createNewRepairOrder() throws CustomerNotFoundException, DataBaseFailureException {
         String phoneNumber = "0732221113"; //Bob
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
         String serialNumber = customerDTO.getBikes().get(1).getSerialNumber();
@@ -68,7 +65,7 @@ class ControllerTest {
     }
 
     @Test
-    void selectBike() throws CustomerNotFoundException{
+    void selectBike() throws CustomerNotFoundException, DataBaseFailureException{
         String phoneNumber = "0732221113"; //Bob
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
         String serialNumber = customerDTO.getBikes().get(1).getSerialNumber();
@@ -80,7 +77,7 @@ class ControllerTest {
     }
 
     @Test
-    void selectNonExistentBike() throws CustomerNotFoundException{
+    void selectNonExistentBike() throws CustomerNotFoundException, DataBaseFailureException{
         String phoneNumber = "0732221113"; //Bob
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
         String serialNumber = "AAAAAAAAAAAAAAAAA";
@@ -90,7 +87,7 @@ class ControllerTest {
     }
 
     @Test
-    void searchBikeNullCustomer() throws CustomerNotFoundException{
+    void searchBikeNullCustomer() throws CustomerNotFoundException, DataBaseFailureException{
         String serialNumber = "123";
 
         BikeDTO bikeDTO = contr.selectBike(serialNumber,null);
@@ -99,7 +96,7 @@ class ControllerTest {
     }
 
     @Test
-    void searchBikeNullSerialNumber() throws CustomerNotFoundException{
+    void searchBikeNullSerialNumber() throws CustomerNotFoundException, DataBaseFailureException{
         String serialNumber = null;
         String phoneNumber = "0732221113"; //Bob
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
@@ -110,7 +107,7 @@ class ControllerTest {
     }
 
     @Test
-    void getOrder() throws CustomerNotFoundException{
+    void getOrder() throws CustomerNotFoundException,DataBaseFailureException{
         String phoneNumber = "0732221113"; //Bob
         CustomerDTO customerDTO = contr.searchCustomerInfo(phoneNumber);
         BikeDTO bikeDTO = customerDTO.getBikes().get(1);
@@ -125,14 +122,14 @@ class ControllerTest {
     }
 
     @Test
-    void getNonExistentOrder() {
+    void getNonExistentOrder() throws DataBaseFailureException {
         RepairOrderDTO repairOrderDTO = contr.getOrder(999999);
 
         assertNull(repairOrderDTO, "Should be provided with null if order doesnt exist");
     }
 
     @Test
-    void addDiagnosticResult() {
+    void addDiagnosticResult() throws DataBaseFailureException {
         repOrdReg.createOrder(new BikeDTO("A","B","C"),"Something",LocalDate.now());
         String diagnosticResult = "Broken";
 
@@ -150,7 +147,7 @@ class ControllerTest {
     }
 
     @Test
-    void addRepairTask() {
+    void addRepairTask() throws DataBaseFailureException {
         repOrdReg.createOrder(new BikeDTO("A","B","C"),"Something",LocalDate.now());
         int cost = 123;
         Amount amountCost = new Amount(cost);
@@ -172,7 +169,7 @@ class ControllerTest {
     }
 
     @Test
-    void diagnosticsDone() {
+    void diagnosticsDone() throws DataBaseFailureException {
         repOrdReg.createOrder(new BikeDTO("A","B","C"),"Something",LocalDate.now());
 
         contr.diagnosticsDone(1);
@@ -209,7 +206,7 @@ class ControllerTest {
     }
 
     @Test
-    void acceptOrder() {
+    void acceptOrder() throws DataBaseFailureException {
         repOrdReg.createOrder(new BikeDTO("A","B","C"),"Something",LocalDate.now());
 
         contr.acceptOrder(1);

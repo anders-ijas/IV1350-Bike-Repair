@@ -2,6 +2,8 @@ package se.kth.iv1350.bikerepair.view;
 
 import se.kth.iv1350.bikerepair.controller.Controller;
 import se.kth.iv1350.bikerepair.integration.CustomerNotFoundException;
+import se.kth.iv1350.bikerepair.integration.DataBaseFailureException;
+import se.kth.iv1350.bikerepair.integration.FileLogger;
 import se.kth.iv1350.bikerepair.model.BikeDTO;
 import se.kth.iv1350.bikerepair.model.CustomerDTO;
 import se.kth.iv1350.bikerepair.model.RepairOrderDTO;
@@ -18,6 +20,7 @@ public class View {
 
     /**
      * Creates a new instance.
+     *
      * @param contr The controller the view should interact with
      */
     public View(Controller contr) {
@@ -27,7 +30,7 @@ public class View {
     /**
      * Starts the simulated view. All calls from the view to the controller are hardcoded to show how an interaction could take place.
      *
-      */
+     */
     public void start() {
         CustomerDTO customer = null;
 
@@ -35,9 +38,12 @@ public class View {
         // Receptionist asks customer for number
         System.out.println("\n--- Searching for Customer ---");
         try {
-             customer = contr.searchCustomerInfo("0732221113");
-        } catch(CustomerNotFoundException e) {
+            customer = contr.searchCustomerInfo("0732221113");
+        } catch (CustomerNotFoundException e) {
             System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
+        } catch (DataBaseFailureException e) {
+            System.out.println("ERROR: Could not connect to server");
+            FileLogger.log(e.getMessage());
         }
 
         // Shows the information (Prints to console since view layer not implemented)
@@ -49,42 +55,55 @@ public class View {
         // Receptionist asks customer for a description of the problem with the bike and which bike
         try {
             contr.createNewRepairOrder(customer, "Something wrong with everything!", "111222", date);
-        } catch(CustomerNotFoundException e) {
+        } catch (CustomerNotFoundException e) {
             System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
+        } catch (DataBaseFailureException e) {
+            System.out.println("ERROR: Could not connect to server");
+            FileLogger.log(e.getMessage());
         }
 
         //Technician knows order ID from the RepairOrderView
-        RepairOrderDTO repairOrder = contr.getOrder(1);
+        RepairOrderDTO repairOrder;
 
-        //Technician performs diagnostic
-        contr.addDiagnosticResult(repairOrder.getId(), "Front wheel broken");
-        contr.addDiagnosticResult(repairOrder.getId(), "Back wheel broken");
-        contr.addDiagnosticResult(repairOrder.getId(), "No chain");
+        try {
+            repairOrder = contr.getOrder(1);
 
-        //Technician adds proposed repair tasks
-        contr.addRepairTask(repairOrder.getId(), "Buy new front wheel and install", 1000);
-        contr.addRepairTask(repairOrder.getId(), "Buy new back wheel and install", 1200);
-        contr.addRepairTask(repairOrder.getId(), "Buy new chain and install", 800);
+            //Technician performs diagnostic
+            contr.addDiagnosticResult(repairOrder.getId(), "Front wheel broken");
+            contr.addDiagnosticResult(repairOrder.getId(), "Back wheel broken");
+            contr.addDiagnosticResult(repairOrder.getId(), "No chain");
 
-        contr.diagnosticsDone(repairOrder.getId());
+            //Technician adds proposed repair tasks
+            contr.addRepairTask(repairOrder.getId(), "Buy new front wheel and install", 1000);
+            contr.addRepairTask(repairOrder.getId(), "Buy new back wheel and install", 1200);
+            contr.addRepairTask(repairOrder.getId(), "Buy new chain and install", 800);
 
-        //Receptionist informs customer about results and individual costs and total costs
-        repairOrder = contr.getOrder(1);
-
-        // (Prints to console since view layer not implemented)
-        System.out.println("\n--- Repair tasks and costs ---");
-        System.out.println("\nRepair Order Tasks and Costs:");
-        for (RepairTask repairTask : repairOrder.getRepairTasks()) {
-            System.out.println(" - " + repairTask.getTaskDescription() + " | " + repairTask.getCost());
+            contr.diagnosticsDone(repairOrder.getId());
+        } catch (DataBaseFailureException e) {
+            FileLogger.log(e.getMessage());
         }
-        System.out.println("Total Cost: " + repairOrder.getPrice());
 
-        // Customer accepts proposed repair tasks and costs
-        contr.acceptOrder(repairOrder.getId());
-        //Since we dont have specified what determines the time we just add a day to the printout
-        contr.printRepair(repairOrder.getId(), date.plusDays(1).toString());
+        try {
+            //Receptionist informs customer about results and individual costs and total costs
+            repairOrder = contr.getOrder(1);
 
-        //Receptionist gives order to customer
-        //Customer leaves
+            // (Prints to console since view layer not implemented)
+            System.out.println("\n--- Repair tasks and costs ---");
+            System.out.println("\nRepair Order Tasks and Costs:");
+            for (RepairTask repairTask : repairOrder.getRepairTasks()) {
+                System.out.println(" - " + repairTask.getTaskDescription() + " | " + repairTask.getCost());
+            }
+            System.out.println("Total Cost: " + repairOrder.getPrice());
+
+            // Customer accepts proposed repair tasks and costs
+            contr.acceptOrder(repairOrder.getId());
+            //Since we dont have specified what determines the time we just add a day to the printout
+            contr.printRepair(repairOrder.getId(), date.plusDays(1).toString());
+
+            //Receptionist gives order to customer
+            //Customer leaves}
+        } catch (DataBaseFailureException e) {
+            FileLogger.log(e.getMessage());
+        }
     }
 }
