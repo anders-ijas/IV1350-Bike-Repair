@@ -1,5 +1,7 @@
 package se.kth.iv1350.bikerepair.model;
 
+import se.kth.iv1350.bikerepair.view.RepairOrderView;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

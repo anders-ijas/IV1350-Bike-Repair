@@ -1,7 +1,6 @@
 package se.kth.iv1350.bikerepair.integration;
 
-import se.kth.iv1350.bikerepair.model.BikeDTO;
-import se.kth.iv1350.bikerepair.model.RepairOrder;
+import se.kth.iv1350.bikerepair.model.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.List;
  */
 public class RepairOrderRegistry {
     private List<RepairOrder> repairOrders = new ArrayList<>();
+    private List<RepairOrderObserver> observers = new ArrayList<>();
 
     /**
      * Creates a new repair order and stores it
@@ -23,8 +23,8 @@ public class RepairOrderRegistry {
     public void createOrder(BikeDTO bikeDTO, String description, LocalDate date) {
         RepairOrder currentOrder = new RepairOrder(bikeDTO,description,date);
         repairOrders.add(currentOrder);
+        this.updateRepairOrder(currentOrder.getId());
     }
-
 
     /**
      * Finds repair order based on repair order id
@@ -38,5 +38,39 @@ public class RepairOrderRegistry {
             }
         }
         return null;
+    }
+
+    /**
+     * Changes the state of the specified repair order
+     * @param state What the state should change to
+     * @param repairOrderId The repair order id
+     */
+    public void changeState(State state, int repairOrderId) {
+        RepairOrder repairOrder = this.getRepairOrder(repairOrderId);
+        if (repairOrder != null) {
+            repairOrder.setState(state);
+            this.updateRepairOrder(repairOrderId);
+        }
+    }
+
+    /**
+     * Adds observers to be notified when a repair order updates
+     * @param repairOrderObserver The repair order observer to add
+     */
+    public void addObserver(RepairOrderObserver repairOrderObserver) {
+        observers.add(repairOrderObserver);
+    }
+
+    /**
+     * Updates all observers with the updated repair order
+     * @param repairOrderId The repair order ID to update
+     */
+    public void updateRepairOrder(int repairOrderId) {
+        RepairOrder repairOrder = getRepairOrder(repairOrderId);
+        RepairOrderDTO repairOrderDTO = repairOrder.createDTO();
+
+        for (RepairOrderObserver repairOrderObserver: observers) {
+            repairOrderObserver.updateRepairOrder(repairOrderDTO);
+        }
     }
 }

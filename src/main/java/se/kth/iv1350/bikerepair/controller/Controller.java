@@ -109,7 +109,7 @@ public class Controller {
      * @param repairOrderId The order id
      */
     public void diagnosticsDone(int repairOrderId) {
-        changeState(State.READY_FOR_APPROVAL,repairOrderId);
+        repOrdReg.changeState(State.READY_FOR_APPROVAL,repairOrderId);
     }
 
     /**
@@ -129,18 +129,15 @@ public class Controller {
      * @param repairOrderId Repair order id
      */
     public void acceptOrder(int repairOrderId) {
-        changeState(State.ACCEPTED,repairOrderId);
+        repOrdReg.changeState(State.ACCEPTED,repairOrderId);
     }
 
+
     /**
-     * Changes the state of the specified repair order
-     * @param state What the state should change to
-     * @param repairOrderId The repair order id
+     * Adds a repair order observer to repair order registry so the observer is notified when a repair order is updated.
+     * @param repairOrderObserver The repair order observer to add.
      */
-    private void changeState(State state, int repairOrderId) {
-        RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
-        if (repairOrder != null) {
-            repairOrder.setState(state);
-        }
+    public void addRepairOrderObserver(RepairOrderObserver repairOrderObserver) {
+        repOrdReg.addObserver(repairOrderObserver);
     }
 }

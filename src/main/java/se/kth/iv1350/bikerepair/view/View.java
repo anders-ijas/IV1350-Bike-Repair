@@ -52,20 +52,9 @@ public class View {
         } catch(CustomerNotFoundException e) {
             System.out.println("ERROR: Could not find customer with phone number: " + e.getPhoneNumber());
         }
-        //Technician asks for repair order (Somehow knowing the orders id)
-        RepairOrderDTO repairOrder = contr.getOrder(1);
 
-        System.out.println("\n--- Technician brings upp information ---");
-        //Shows information to technician (Prints to console since view layer not implemented)
-        System.out.println("\nRepair Order:");
-        System.out.println("ID: " + repairOrder.getId());
-        System.out.println("Date: " + repairOrder.getDate());
-        System.out.println("Desc: " + repairOrder.getCustomersProblemDescription());
-        System.out.println("State: " + repairOrder.getState());
-        System.out.println("Repair Tasks: " + repairOrder.getRepairTasks());
-        System.out.println("Diagnostic Tasks: " + repairOrder.getDiagnosticResults());
-        System.out.println("Price: " + repairOrder.getPrice());
-        System.out.println("Bike: " + repairOrder.getBike().getBrand() + " | " + repairOrder.getBike().getModel() + " | " + repairOrder.getBike().getSerialNumber());
+        //Technician knows order ID from the RepairOrderView
+        RepairOrderDTO repairOrder = contr.getOrder(1);
 
         //Technician performs diagnostic
         contr.addDiagnosticResult(repairOrder.getId(), "Front wheel broken");
