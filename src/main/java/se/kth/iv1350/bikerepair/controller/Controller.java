@@ -2,6 +2,7 @@ package se.kth.iv1350.bikerepair.controller;
 
 import se.kth.iv1350.bikerepair.integration.*;
 import se.kth.iv1350.bikerepair.model.*;
+import se.kth.iv1350.bikerepair.model.discountstrategy.DiscountStrategy;
 
 import java.time.LocalDate;
 
@@ -98,6 +99,7 @@ public class Controller {
      * @param repairOrderId Repair order id
      * @param repairTask Repair task description
      * @param cost Cost of repair
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
      */
     public void addRepairTask(int repairOrderId, String repairTask, int cost) throws DataBaseFailureException {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
@@ -109,6 +111,7 @@ public class Controller {
     /**
      * When technician is done with order the order state is changed to READY_FOR_APPROVAL
      * @param repairOrderId The order id
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
      */
     public void diagnosticsDone(int repairOrderId) throws DataBaseFailureException {
         repOrdReg.changeState(State.READY_FOR_APPROVAL,repairOrderId);
@@ -117,6 +120,7 @@ public class Controller {
     /**
      * Prints the repair order
      * @param repairOrderId Repair order id
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
      */
     public void printRepair(int repairOrderId, String date) throws DataBaseFailureException {
         RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
@@ -129,6 +133,7 @@ public class Controller {
     /**
      * Changes repair order state to accepted
      * @param repairOrderId Repair order id
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
      */
     public void acceptOrder(int repairOrderId) throws DataBaseFailureException {
         repOrdReg.changeState(State.ACCEPTED,repairOrderId);
@@ -141,5 +146,18 @@ public class Controller {
      */
     public void addRepairOrderObserver(RepairOrderObserver repairOrderObserver) {
         repOrdReg.addObserver(repairOrderObserver);
+    }
+
+    /**
+     * Sets the discount strategy for specified repair order
+     * @param repairOrderId The ID of repair order
+     * @param discountStrategy Discount strategy to use
+     * @throws DataBaseFailureException If orderID is 503 (Hardcoded simulation)
+     */
+    public void setDiscountStrategy(int repairOrderId, DiscountStrategy discountStrategy) throws DataBaseFailureException {
+        RepairOrder repairOrder = repOrdReg.getRepairOrder(repairOrderId);
+        if (repairOrder != null) {
+            repairOrder.setDiscountingStrategy(discountStrategy);
+        }
     }
 }
