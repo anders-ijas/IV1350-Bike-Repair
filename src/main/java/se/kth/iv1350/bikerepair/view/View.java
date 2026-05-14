@@ -90,14 +90,6 @@ public class View {
             //Receptionist informs customer about results and individual costs and total costs
             repairOrder = contr.getOrder(1);
 
-            // (Prints to console since view layer not implemented)
-            System.out.println("\n--- Repair tasks and costs ---");
-            System.out.println("\nRepair Order Tasks and Costs:");
-            for (RepairTask repairTask : repairOrder.getRepairTasks()) {
-                System.out.println(" - " + repairTask.getTaskDescription() + " | " + repairTask.getCost());
-            }
-            System.out.println("Total Cost: " + repairOrder.getPrice());
-
             // Customer accepts proposed repair tasks and costs
             contr.acceptOrder(repairOrder.getId());
             //Since we dont have specified what determines the time we just add a day to the printout
