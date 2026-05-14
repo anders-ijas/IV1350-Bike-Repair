@@ -8,6 +8,7 @@ import se.kth.iv1350.bikerepair.model.BikeDTO;
 import se.kth.iv1350.bikerepair.model.CustomerDTO;
 import se.kth.iv1350.bikerepair.model.RepairOrderDTO;
 import se.kth.iv1350.bikerepair.model.RepairTask;
+import se.kth.iv1350.bikerepair.model.discountstrategy.BikeShopBirthdayDiscount;
 import se.kth.iv1350.bikerepair.model.discountstrategy.NoDiscount;
 
 import java.time.LocalDate;
@@ -68,7 +69,7 @@ public class View {
 
         try {
             repairOrder = contr.getOrder(1);
-            contr.setDiscountStrategy(repairOrder.getId(),new NoDiscount());
+            contr.setDiscountStrategy(repairOrder.getId(),new BikeShopBirthdayDiscount());
 
             //Technician performs diagnostic
             contr.addDiagnosticResult(repairOrder.getId(), "Front wheel broken");
